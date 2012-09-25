@@ -6,7 +6,7 @@ Built on top of Matt Varone's [Node.JS / Socket.IO / MIDI Keyboard](https://gith
 
 ## How to Install
 
-    git clone https://github.com/motin/data-midi-lab.git
+    git clone https://github.com/motin/data-midi-lab.git -b develop
     cd data-midi-lab
     npm install
     node app.js
