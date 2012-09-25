@@ -1,6 +1,6 @@
 # Data MIDI Lab
 
-A Node.js-based MIDI Controller and web frontend that allows you to generate MIDI notes and control data frpm arbitrary chunks of data.
+A Node.js-based MIDI Controller and web frontend that allows you to generate MIDI notes and control data from arbitrary chunks of data.
 
 Built on top of Matt Varone's [Node.JS / Socket.IO / MIDI Keyboard](https://github.com/sksmatt/nodejs-ableton-piano).
 
