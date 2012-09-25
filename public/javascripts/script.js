@@ -154,4 +154,9 @@
         socket.emit('controller',{ message: $(this).data('message') });
     });
 
+    $('#datasets a').on('click', function(e){
+        e.preventDefault();
+        socket.emit('controller',$(this).data());
+    });
+
 })(jQuery);

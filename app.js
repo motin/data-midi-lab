@@ -5,6 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , datalab = require('./datalab')
   , io = require('socket.io');
 
 var app = module.exports = express.createServer(),
@@ -41,7 +42,7 @@ var midi = require('midi'),
 try {
   midiOut.openPort(0);
 } catch(error) {
-  midiOut.openVirtualPort('');
+  midiOut.openVirtualPort('Data MIDI Lab');
 }
 
 io.sockets.on('connection', function (socket) {
@@ -60,6 +61,8 @@ io.sockets.on('connection', function (socket) {
 
   // controller
   socket.on('controller',function(data){
+    console.log('controller', data);
+    datalab.foo();
     var message = parseInt(data.message,10);
     midiOut.sendMessage([message,0,0]);
   });
@@ -74,4 +77,4 @@ process.on("SIGTERM", function(){
 
 // Start
 
-app.listen(3000);
+app.listen(3001);
