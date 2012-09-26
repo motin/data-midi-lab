@@ -2,18 +2,20 @@ exports.foo = function(){
     console.log('foo');
 };
 
+/*
 exports.randinterval = function(min,max){
     var len = max-min;
     var p = min + parseInt(Math.random()*len);
     return p;
 };
+*/
 
 exports.getRandomDataPoints = function(cnt){
     console.log('getRandomDataPoints');
 
     dataset = [];
     for (i=0;i<cnt;i++) {
-        dataset.push(exports.randinterval(0, 127));
+        dataset.push(Math.random());
     }
     return dataset;
 

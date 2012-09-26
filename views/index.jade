@@ -34,18 +34,25 @@
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.a pre.tosend') Send
                 li.b
                     h3 Random notes at high frequency
-                    div Transformation: Send a random note message [todo: within a two-octave E2 minor scale] 100 times every beat at 140 bpm for 10 seconds
-                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-key='E2',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.b pre.tosend') Preview
+                    div Transformation: Send a random note message 100 times every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.b pre.tosend') Preview
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.b pre.tosend') Send
                 li.c
-                    h3 Random notes in E2 minor scale (TODO)
-                    div Transformation: Send a random note message within a two-octave E2 minor scale twice every beat at 140 bpm for 10 seconds
-                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-key='E2',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.c pre.tosend') Preview
+                    h3 Random notes in E3 minor scale at high frequency
+                    div Transformation: Send a random note message within a two-octave E3 minor scale 100 times every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-basenote='E2',data-scale='dorian',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.c pre.tosend') Preview
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.c pre.tosend') Send
+                li.d
+                    h3 Random notes in E3 minor scale
+                    div Transformation: Send a random note message within a two-octave E3 minor scale twice every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.d pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.d pre.tosend') Send
     ul
         items = ["one", "two", "three"]
         each item, i in items

@@ -1,3 +1,36 @@
+var teoria_module = require('./modules/teoria/dist/teoria');
+var teoria = teoria_module.teoria;
+
+exports.fractionToIndex = function(fraction,min,max){
+    var len = max-min;
+    var p = Math.round(min + fraction*len);
+    return p;
+};
+
+
+function numberRange(lower, upper) {
+
+    var numbers = [],
+    modify = 1;
+
+    if (lower > upper) {
+        modify = -1;
+    }
+
+    upper += modify;
+    while (lower != upper) {
+
+        numbers.push(lower);
+        lower += modify;
+    }
+
+    return numbers;
+}
+
+exports.fullGamut = function() {
+    return numberRange(0x15,0x6C);
+}
+
 exports.scheduleMidiMessage = function(midiOut, message, at, start) {
     setTimeout(function() {
         console.log('scheduleMidiMessage', message, at);
@@ -29,7 +62,7 @@ exports.dataToControlEvents = function(dataset){
     for (i=0;i<dataset.datapoints.length;i++) {
         events.push({
             type: 'control',
-            value: dataset.datapoints[i],
+            value: exports.fractionToIndex(dataset.datapoints[i],0,127),
             at: Math.round(dataset.msBetweenPoints*i)
         })
     }
@@ -37,14 +70,33 @@ exports.dataToControlEvents = function(dataset){
 
 };
 
-exports.dataToNoteEvents = function(dataset){
+exports.dataToNoteEvents = function(dataset, params){
     console.log('dataToNoteEvents', dataset);
+
+    var gamut = [];
+
+    if (typeof params.basenote != 'undefined' && typeof params.scale != 'undefined') {
+
+        var basenote = teoria.note(params.basenote);
+        var scale = basenote.scale(params.scale);
+        for (i=0;i<scale.notes.length;i++) {
+            gamut.push(scale.notes[i].key());
+        }
+        var scale2 = basenote.interval('P8').scale(params.scale);
+        for (i=0;i<scale2.notes.length;i++) {
+            console.log(scale2.notes[i].key());
+            gamut.push(scale2.notes[i].key());
+        }
+        
+    } else {
+        gamut = exports.fullGamut();
+    }
 
     events = [];
     for (i=0;i<dataset.datapoints.length;i++) {
         events.push({
             type: 'note',
-            value: dataset.datapoints[i],
+            value: gamut[exports.fractionToIndex(dataset.datapoints[i],0,gamut.length)],
             length: dataset.msBetweenPoints,
             velocity: 95,
             at: Math.round(dataset.msBetweenPoints*i)
@@ -59,8 +111,7 @@ exports.getEvents = function(dataset, params) {
     var result;
 
     if (params.targetType == 'notes') {
-        //, params.key
-        result = exports.dataToNoteEvents(dataset);
+        result = exports.dataToNoteEvents(dataset, params);
     } else if (params.targetType == 'control') {
         result = exports.dataToControlEvents(dataset);
     } else if (params.targetType == 'trigger') {
