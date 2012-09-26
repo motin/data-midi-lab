@@ -6,9 +6,16 @@ Built on top of Matt Varone's [Node.JS / Socket.IO / MIDI Keyboard](https://gith
 
 ## How to Install
 
+    sudo port install npm jake
     git clone https://github.com/motin/data-midi-lab.git -b develop
     cd data-midi-lab
     npm install
+    git submodule init
+    git submodule update
+    cd modules/teoria
+    npm install mingler
+    jake build
+    cd ../..
     node app.js
 
 Then open [http://localhost:3001](http://localhost:3001) in a browser.
