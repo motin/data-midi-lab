@@ -61,7 +61,7 @@
         },
         bindEvents = function(){
             var self = this,
-                note, key, code, pressed = {};
+            note, key, code, pressed = {};
 
             // Click
             this._el.find('.key').on('mousedown touchstart',function(e){
@@ -116,11 +116,15 @@
         },
         noteDown = function(note){
             var octavedNote = getNoteInOctave.call(this,note);
-            socket.emit('notedown',{message: octavedNote});
+            socket.emit('notedown',{
+                message: octavedNote
+            });
         },
         noteUp = function(note){
             var octavedNote = getNoteInOctave.call(this,note);
-            socket.emit('noteup',{message: octavedNote});
+            socket.emit('noteup',{
+                message: octavedNote
+            });
         },
         getNoteInOctave = function(note){
             var octave = this.octave;
@@ -131,11 +135,15 @@
             }
         },
         octaveUp = function() {
-            if ( this.octave === 4 ) { return; }
+            if ( this.octave === 4 ) {
+                return;
+            }
             this.octave += 1;
         },
         octaveDown = function() {
-            if ( this.octave === -4 ) { return; }
+            if ( this.octave === -4 ) {
+                return;
+            }
             this.octave -= 1;
         };
         return {
@@ -151,7 +159,9 @@
     // send message on click
     $('#controller a').on('click', function(e){
         e.preventDefault();
-        socket.emit('controller',{ message: $(this).data('message') });
+        socket.emit('controller',{
+            message: $(this).data('message')
+        });
     });
 
     $('#datasets a').on('click', function(e){
