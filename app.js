@@ -44,9 +44,14 @@ var midi = require('midi'),
 midiOut = new midi.output();
 
 try {
-    midiOut.openPort(0);
+    console.log('Opening Virtual MIDI port: Data MIDI Lab');
+    res = midiOut.openVirtualPort('Data MIDI Lab');
+    console.log('Success');
 } catch(error) {
-    midiOut.openVirtualPort('Data MIDI Lab');
+    console.log(error);
+    console.log('Opening first available MIDI port');
+    midiOut.openPort(0);
+    console.log('Success');
 }
 
 io.sockets.on('connection', function (socket) {
