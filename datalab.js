@@ -34,3 +34,21 @@ exports.dataToControlEvents = function(dataset, msBetweenEvents){
     return events;
 
 };
+
+exports.dataToNoteEvents = function(dataset, msBetweenEvents){
+    console.log('dataToNoteEvents', dataset);
+
+    events = [];
+    msFromStart = 0;
+    for (i=0;i<dataset.length;i++) {
+        events.push({
+            type: 'note',
+            value: dataset[i],
+            length: msBetweenEvents,
+            velocity: 95,
+            at: Math.round(msBetweenEvents*i)
+        })
+    }
+    return events;
+
+};

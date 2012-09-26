@@ -127,12 +127,11 @@ io.sockets.on('connection', function (socket) {
         }
         var result;
 
+        var msBetweenEvents = durationSeconds*1000/cntEvents;
         if (params.targetType == 'notes') {
             //params.key
-            throw 'TODO';
-            result = datalab.dataToNoteEvents(dataset);
+            result = datalab.dataToNoteEvents(dataset, msBetweenEvents);
         } else if (params.targetType == 'control') {
-            var msBetweenEvents = durationSeconds*1000/cntEvents;
             result = datalab.dataToControlEvents(dataset, msBetweenEvents);
         } else if (params.targetType == 'trigger') {
             throw 'TODO';
