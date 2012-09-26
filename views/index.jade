@@ -4,7 +4,7 @@
         li.a
             h2 A (Mockup)
             div Use trading volume as a signal to start the music (wait for trading volume to reach a certain level), which consists of the variations of trading volume translated to notes in a E2 minor scale. Then, use other features (going up or down, etc.) to determine the nature of the music.
-            a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Start
+            a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Send
     h1 Datasets (Mockup)
     ul#datasets
         li.volume_280_tatum
@@ -15,28 +15,32 @@
                     div Transformation: Take each bid_volume, normalize it send a note message within a two-octave E2 minor scale for every beat at 140 bpm
                     a.transform(href='#',data-message='123',data-foo='34343',data-bar='E2') Preview
                     .foo
-                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Start
+                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Send
                 li
                     h3 B (Mockup)
                     div Transformation: Take each bid_volatility, normalize it send a note message within a two-octave E2 minor scale for every beat at 140 bpm
                     a.transform(href='#',data-message='123',data-foo='34343',data-bar='E2') Preview
                     .foo
-                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Start
+                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Send
         li.no_data
-            h2 Non-data programs (Mockup)
+            h2 Non-data programs (WIP)
             ul
-                li
-                    h3 Random control data (Mockup)
-                    div Transformation: Send a random control message 60 times per every beat at 140 bpm
-                    a.transform(href='#',data-message='123',data-foo='34343',data-bar='E2') Preview
-                    .foo
-                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Start
-                li
+                li.a
+                    h3 Random control data
+                    div Transformation: Send a random control message 60 times per every second at 140 bpm for 10 seconds
+                    a.transform(href='#',data-dataset='no_data',data-target-type='control',data-rate='60',data-rate-unit='second', data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.a pre.tosend') Preview
+                    pre.tosend
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.a pre.tosend') Send
+                li.b
                     h3 Random notes (TODO)
-                    div Transformation: Send a random note message within a two-octave E2 minor scale for every beat at 140 bpm
-                    a.transform(href='#',data-message='123',data-foo='34343',data-bar='E2') Preview
-                    .foo
-                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Start
+                    div Transformation: Send a random note message within a two-octave E2 minor scale for every beat at 140 bpm for 10 seconds 
+                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-key='E2',data-rate='60',data-rate-unit='second',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.b pre.tosend') Preview
+                    pre.tosend
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.b pre.tosend') Send
+    ul
+        items = ["one", "two", "three"]
+        each item, i in items
+            li #{item}: #{i}
     ul#controller
         li.button 
             a#play(href='#',data-message='250') 
