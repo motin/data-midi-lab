@@ -76,69 +76,11 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('transform',function(params){
-        console.log('transform', params);
 
-        /*
-        transform { dataset: 'no_data',
-          targetType: 'control',
-          key: 'E2',
-          rate: 60,
-          rateUnit: 'second',
-          duration: 10,
-          durationUnit: 'seconds',
-          destination: 'ul#datasets li.no_data ul li.a pre.tosend' }
-        */
-
-        var bpm = 140;
-        var bps = bpm/60;
-        var spb = 1/bps;
-
-        var durationSeconds;
-        if (params.durationUnit == 'beats') {
-            durationSeconds = params.duration*spb;
-        } else     if (params.durationUnit == 'seconds') {
-            durationSeconds = params.duration;
-        } else {
-            throw 'invalid durationUnit';
-        }
-
-        console.log('durationSeconds',durationSeconds);
-
-        var ratePerSecond;
-        if (params.rateUnit == 'beat') {
-            ratePerSecond = params.rate*bps;
-        } else     if (params.rateUnit == 'second') {
-            ratePerSecond = params.rate;
-        } else {
-            throw 'invalid rateUnit';
-        }
-
-        console.log('ratePerSecond',ratePerSecond);
-
-        var cntEvents = durationSeconds*ratePerSecond;
-
-        console.log('cntEvents',cntEvents);
-
-        var dataset;
-        if (params.dataset == 'no_data') {
-            dataset = datalab.getRandomDataSet(cntEvents);
-        } else {
-            throw 'TODO dataset';
-        }
-        var result;
-
-        var msBetweenEvents = durationSeconds*1000/cntEvents;
-        if (params.targetType == 'notes') {
-            //params.key
-            result = datalab.dataToNoteEvents(dataset, msBetweenEvents);
-        } else if (params.targetType == 'control') {
-            result = datalab.dataToControlEvents(dataset, msBetweenEvents);
-        } else if (params.targetType == 'trigger') {
-            throw 'TODO';
-            result = datalab.dataToTriggerEvents(dataset);
-        } else {
-            throw 'invalid targetType';
-        }
+        console.log('transform');
+        
+        var dataset = datalab.getDataSet(params);
+        var result = midilab.getEvents(dataset, params);
 
         // send to preview div
         socket.emit('update_preview',{
@@ -151,7 +93,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('send',function(params){
         
         console.log('send');
-        console.log(params);
 
         midilab.sendEvents(midiOut, params.tosend);
         

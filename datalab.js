@@ -8,8 +8,8 @@ exports.randinterval = function(min,max){
     return p;
 };
 
-exports.getRandomDataSet = function(cnt){
-    console.log('getRandomDataSet');
+exports.getRandomDataPoints = function(cnt){
+    console.log('getRandomDataPoints');
 
     dataset = [];
     for (i=0;i<cnt;i++) {
@@ -19,36 +19,64 @@ exports.getRandomDataSet = function(cnt){
 
 };
 
-exports.dataToControlEvents = function(dataset, msBetweenEvents){
-    console.log('dataToControlEvents', dataset);
+exports.getDataSet = function(params){
+    
+    console.log('getDataSet', params);
 
-    events = [];
-    msFromStart = 0;
-    for (i=0;i<dataset.length;i++) {
-        events.push({
-            type: 'control',
-            value: dataset[i],
-            at: Math.round(msBetweenEvents*i)
-        })
+    /*
+        getDataSet { dataset: 'no_data',
+          targetType: 'control',
+          key: 'E2',
+          rate: 60,
+          rateUnit: 'second',
+          duration: 10,
+          durationUnit: 'seconds',
+          destination: 'ul#datasets li.no_data ul li.a pre.tosend' }
+        */
+
+    var bpm = 140;
+    var bps = bpm/60;
+    var spb = 1/bps;
+
+    var durationSeconds;
+    if (params.durationUnit == 'beats') {
+        durationSeconds = params.duration*spb;
+    } else     if (params.durationUnit == 'seconds') {
+        durationSeconds = params.duration;
+    } else {
+        throw 'invalid durationUnit';
     }
-    return events;
 
-};
+    console.log('durationSeconds',durationSeconds);
 
-exports.dataToNoteEvents = function(dataset, msBetweenEvents){
-    console.log('dataToNoteEvents', dataset);
-
-    events = [];
-    msFromStart = 0;
-    for (i=0;i<dataset.length;i++) {
-        events.push({
-            type: 'note',
-            value: dataset[i],
-            length: msBetweenEvents,
-            velocity: 95,
-            at: Math.round(msBetweenEvents*i)
-        })
+    var ratePerSecond;
+    if (params.rateUnit == 'beat') {
+        ratePerSecond = params.rate*bps;
+    } else     if (params.rateUnit == 'second') {
+        ratePerSecond = params.rate;
+    } else {
+        throw 'invalid rateUnit';
     }
-    return events;
 
-};
+    console.log('ratePerSecond',ratePerSecond);
+
+    var cntEvents = durationSeconds*ratePerSecond;
+
+    console.log('cntEvents',cntEvents);
+
+    var dataset = {};
+    if (params.dataset == 'no_data') {
+        dataset.datapoints = exports.getRandomDataPoints(cntEvents);
+    } else {
+        throw 'TODO dataset';
+    }
+    
+    dataset.bpm = bpm;
+    dataset.bps = bps;
+    dataset.spb = spb;
+    dataset.durationSeconds = durationSeconds;
+    dataset.ratePerSecond = ratePerSecond;
+
+    return dataset;
+    
+}

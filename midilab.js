@@ -21,3 +21,56 @@ exports.sendEvents = function(midiOut, tosend) {
         }
     }
 }
+
+exports.dataToControlEvents = function(dataset, msBetweenEvents){
+    console.log('dataToControlEvents', dataset);
+
+    events = [];
+    msFromStart = 0;
+    for (i=0;i<dataset.length;i++) {
+        events.push({
+            type: 'control',
+            value: dataset[i],
+            at: Math.round(msBetweenEvents*i)
+        })
+    }
+    return events;
+
+};
+
+exports.dataToNoteEvents = function(dataset, msBetweenEvents){
+    console.log('dataToNoteEvents', dataset);
+
+    events = [];
+    msFromStart = 0;
+    for (i=0;i<dataset.length;i++) {
+        events.push({
+            type: 'note',
+            value: dataset[i],
+            length: msBetweenEvents,
+            velocity: 95,
+            at: Math.round(msBetweenEvents*i)
+        })
+    }
+    return events;
+
+};
+
+exports.getEvents = function(dataset, params) {
+    
+    var result;
+
+    var msBetweenEvents = dataset.durationSeconds*1000/dataset.datapoints.length;
+    if (params.targetType == 'notes') {
+        //, params.key
+        result = exports.dataToNoteEvents(dataset.datapoints, msBetweenEvents);
+    } else if (params.targetType == 'control') {
+        result = exports.dataToControlEvents(dataset.datapoints, msBetweenEvents);
+    } else if (params.targetType == 'trigger') {
+        throw 'TODO';
+        result = exports.dataToTriggerEvents(dataset.datapoints);
+    } else {
+        throw 'invalid targetType';
+    }
+    return result;
+}
