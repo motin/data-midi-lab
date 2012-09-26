@@ -317,6 +317,7 @@ small {
 pre.tosend {
     height: 100px;
     overflow: auto;
+    background-color: black;
 }
 
 div.clear {
