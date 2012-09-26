@@ -22,34 +22,32 @@ exports.sendEvents = function(midiOut, tosend) {
     }
 }
 
-exports.dataToControlEvents = function(dataset, msBetweenEvents){
+exports.dataToControlEvents = function(dataset){
     console.log('dataToControlEvents', dataset);
 
     events = [];
-    msFromStart = 0;
-    for (i=0;i<dataset.length;i++) {
+    for (i=0;i<dataset.datapoints.length;i++) {
         events.push({
             type: 'control',
-            value: dataset[i],
-            at: Math.round(msBetweenEvents*i)
+            value: dataset.datapoints[i],
+            at: Math.round(dataset.msBetweenPoints*i)
         })
     }
     return events;
 
 };
 
-exports.dataToNoteEvents = function(dataset, msBetweenEvents){
+exports.dataToNoteEvents = function(dataset){
     console.log('dataToNoteEvents', dataset);
 
     events = [];
-    msFromStart = 0;
-    for (i=0;i<dataset.length;i++) {
+    for (i=0;i<dataset.datapoints.length;i++) {
         events.push({
             type: 'note',
-            value: dataset[i],
-            length: msBetweenEvents,
+            value: dataset.datapoints[i],
+            length: dataset.msBetweenPoints,
             velocity: 95,
-            at: Math.round(msBetweenEvents*i)
+            at: Math.round(dataset.msBetweenPoints*i)
         })
     }
     return events;
@@ -60,15 +58,14 @@ exports.getEvents = function(dataset, params) {
     
     var result;
 
-    var msBetweenEvents = dataset.durationSeconds*1000/dataset.datapoints.length;
     if (params.targetType == 'notes') {
         //, params.key
-        result = exports.dataToNoteEvents(dataset.datapoints, msBetweenEvents);
+        result = exports.dataToNoteEvents(dataset);
     } else if (params.targetType == 'control') {
-        result = exports.dataToControlEvents(dataset.datapoints, msBetweenEvents);
+        result = exports.dataToControlEvents(dataset);
     } else if (params.targetType == 'trigger') {
         throw 'TODO';
-        result = exports.dataToTriggerEvents(dataset.datapoints);
+        result = exports.dataToTriggerEvents(dataset);
     } else {
         throw 'invalid targetType';
     }

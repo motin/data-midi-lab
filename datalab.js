@@ -76,6 +76,7 @@ exports.getDataSet = function(params){
     dataset.spb = spb;
     dataset.durationSeconds = durationSeconds;
     dataset.ratePerSecond = ratePerSecond;
+    dataset.msBetweenPoints = dataset.durationSeconds*1000/dataset.datapoints.length;
 
     return dataset;
     
