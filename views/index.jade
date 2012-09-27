@@ -2,61 +2,123 @@
     h1 Compositions (Mockup)
     ul#compositions
         li.a
-            h2 A (Mockup)
-            div Use trading volume as a signal to start the music (wait for trading volume to reach a certain level), which consists of the variations of trading volume translated to notes in a E2 minor scale. Then, use other features (going up or down, etc.) to determine the nature of the music.
-            a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Send
-    h1 Datasets (Mockup)
-    ul#datasets
-        li.volume_280_tatum
-            h2 volume_280_tatum.csv (Mockup)
+            h2 Demo dubstep composition (Mockup)
+            div Use trading volume as a signal to start the music (wait for trading volume to reach a certain level). Then, use other metrics (triggering channels on/off, having control values going up or down, etc.) to determine the nature of the music.
+            a.send(href='#') Preview composition
+            div.clear
+            a.send(href='#') Send composition
             ul
                 li
-                    h3 A (Mockup)
-                    div Transformation: Take each bid_volume, normalize it send a note message within a two-octave E2 minor scale for every beat at 140 bpm
-                    a.transform(href='#',data-message='123',data-foo='34343',data-bar='E2') Preview
-                    .foo
-                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Send
+                    h3 Note generators
+                    ul
+                        li
+                            h4 Channel 1 - Melody (Mockup)
+                            div Do something
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+                        li
+                            h4 Channel 2 Bass wobble (Mockup)
+                            div Do something
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
                 li
-                    h3 B (Mockup)
-                    div Transformation: Take each bid_volatility, normalize it send a note message within a two-octave E2 minor scale for every beat at 140 bpm
-                    a.transform(href='#',data-message='123',data-foo='34343',data-bar='E2') Preview
-                    .foo
-                    a.send(href='#',data-message='123',data-foo='34343',data-bar='E2') Send
+                    h3 Control tracks
+                    ul
+                        li
+                            h4 A (Mockup)
+                            div Do something
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+                        li
+                            h4 B (Mockup)
+                            div Do something
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+                li
+                    h3 Triggers
+                    ul
+                        li
+                            h4 A (Mockup)
+                            div Do something
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+                        li
+                            h4 B (Mockup)
+                            div Do something
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+    h1 Datasets
+    ul#datasets
+        li.volume_280_tatum
+            h2 volume_280_tatum.csv
+            ul
+                li.a
+                    h3 Notes based on bid_volume in E3 minor
+                    div Transformation: Take each bid_volume, normalize it send a note message within a two-octave E3 minor scale for every beat at 140 bpm
+                    a.transform(href='#',data-datasource='csv',data-dataset='volume_280_tatum',data-datacolumnindex='1',data-datacolumn='bid_volume',data-lower-normalize='0',data-upper-normalize='15000000',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='1',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#datasets li.volume_280_tatum ul li.a pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.volume_280_tatum ul li.a pre.tosend') Send
+                li.b
+                    h3 Notes based on bid_volatility in E3 minor
+                    div Transformation: Take each bid_volatility, normalize it send a note message within a two-octave E3 minor scale for every beat at 140 bpm
+                    a.transform(href='#',data-datasource='csv',data-dataset='volume_280_tatum',data-datacolumnindex='2',data-datacolumn='bid_volatility',data-lower-normalize='0',data-upper-normalize='5',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='1',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#datasets li.volume_280_tatum ul li.b pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.volume_280_tatum ul li.b pre.tosend') Send
         li.no_data
             h2 Non-data programs
             ul
                 li.a
                     h3 Random control data
                     div Transformation: Send a random control message 60 times per every second at 140 bpm for 10 seconds
-                    a.transform(href='#',data-dataset='no_data',data-target-type='control',data-rate='60',data-rate-unit='second', data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.a pre.tosend') Preview
+                    a.transform(href='#',data-datasource='no_data',data-target-type='control',data-rate='60',data-rate-unit='second', data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.a pre.tosend') Preview
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.a pre.tosend') Send
                 li.b
                     h3 Random notes at high frequency
                     div Transformation: Send a random note message 100 times every beat at 140 bpm for 10 seconds
-                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.b pre.tosend') Preview
+                    a.transform(href='#',data-datasource='no_data',data-target-type='notes',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.b pre.tosend') Preview
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.b pre.tosend') Send
                 li.c
                     h3 Random notes in E3 minor scale at high frequency
                     div Transformation: Send a random note message within a two-octave E3 minor scale 100 times every beat at 140 bpm for 10 seconds
-                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-basenote='E2',data-scale='dorian',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.c pre.tosend') Preview
+                    a.transform(href='#',data-datasource='no_data',data-target-type='notes',data-basenote='E2',data-scale='dorian',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.c pre.tosend') Preview
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.c pre.tosend') Send
                 li.d
                     h3 Random notes in E3 minor scale
                     div Transformation: Send a random note message within a two-octave E3 minor scale twice every beat at 140 bpm for 10 seconds
-                    a.transform(href='#',data-dataset='no_data',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.d pre.tosend') Preview
+                    a.transform(href='#',data-datasource='no_data',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.d pre.tosend') Preview
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.d pre.tosend') Send
                 li.e
                     h3 Random notes in E3 minor scale - To MIDI Channel 2
                     div Transformation: Send a random note message within a two-octave E3 minor scale twice every beat at 140 bpm for 10 seconds
-                    a.transform(href='#',data-dataset='no_data',data-channel='2',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.e pre.tosend') Preview
+                    a.transform(href='#',data-datasource='no_data',data-channel='2',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.e pre.tosend') Preview
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.e pre.tosend') Send

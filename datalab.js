@@ -8,33 +8,69 @@ exports.randinterval = function(min,max){
     var p = min + parseInt(Math.random()*len);
     return p;
 };
-*/
+ */
 
 exports.getRandomDataPoints = function(cnt){
     console.log('getRandomDataPoints');
 
-    dataset = [];
+    var datapoints = [];
     for (i=0;i<cnt;i++) {
-        dataset.push(Math.random());
+        datapoints.push(Math.random());
     }
-    return dataset;
+    return datapoints;
 
 };
 
-exports.getDataSet = function(params){
+
+exports.getCsvDataPoints = function(params, cntEvents, callback) {
+
+    var csv = require('csv');
+
+    var datapoints = [];
+
+    csv()
+    .fromPath(__dirname+'/data/'+params.dataset+'.csv', {
+        delimiter: ';'
+    //columns: [params.datacolumn]
+    })
+    //.toPath(__dirname+'/data/'+params.dataset+'-transformed.csv')
+    .transform(function(data){
+        //console.log('data transform b',data);
+
+        // Get the value from datacolumnindex - TODO: support datacolumn name-based by reading headers first...
+        fl = parseFloat(data[params.datacolumnindex]);
+
+        // Normalize
+        normalizedValue = (fl - params.lowerNormalize)/params.upperNormalize;
+        
+        // Put the value that we will use firstmost in the array
+        data.unshift(normalizedValue);
+
+        //console.log('data transform a',data);
+        
+        return data;
+    })
+    .on('data',function(data,index){
+        // Skip first row since we assume they are headers
+        if (index > 1) {
+            //console.log('#'+index+' '+JSON.stringify(data));
+            datapoints.push(data[0]);
+        }
+    })
+    .on('end',function(count){
+        console.log('Number of lines expected: '+cntEvents);
+        console.log('Number of lines in CSV: '+count);
+        callback(datapoints);
+    })
+    .on('error',function(error){
+        console.log(error.message);
+    });
+
+}
+
+exports.getDataSet = function(params, callback){
     
     console.log('getDataSet', params);
-
-    /*
-        getDataSet { dataset: 'no_data',
-          targetType: 'control',
-          key: 'E2',
-          rate: 60,
-          rateUnit: 'second',
-          duration: 10,
-          durationUnit: 'seconds',
-          destination: 'ul#datasets li.no_data ul li.a pre.tosend' }
-        */
 
     var bpm = 140;
     var bps = bpm/60;
@@ -66,20 +102,33 @@ exports.getDataSet = function(params){
 
     console.log('cntEvents',cntEvents);
 
-    var dataset = {};
-    if (params.dataset == 'no_data') {
-        dataset.datapoints = exports.getRandomDataPoints(cntEvents);
-    } else {
-        throw 'TODO dataset';
-    }
-    
-    dataset.bpm = bpm;
-    dataset.bps = bps;
-    dataset.spb = spb;
-    dataset.durationSeconds = durationSeconds;
-    dataset.ratePerSecond = ratePerSecond;
-    dataset.msBetweenPoints = dataset.durationSeconds*1000/dataset.datapoints.length;
+    var addmetadataandreturn = function(dataset) {
 
-    return dataset;
+        dataset.bpm = bpm;
+        dataset.bps = bps;
+        dataset.spb = spb;
+        dataset.durationSeconds = durationSeconds;
+        dataset.ratePerSecond = ratePerSecond;
+        dataset.msBetweenPoints = dataset.durationSeconds*1000/dataset.datapoints.length;
+
+        callback(dataset);
+
+    }
+
+
+    var dataset = {};
+    if (params.datasource == 'no_data') {
+        dataset.datapoints = exports.getRandomDataPoints(cntEvents);
+        addmetadataandreturn(dataset);
+    } else if (params.datasource == 'csv') {
+        exports.getCsvDataPoints(params, cntEvents, function(datapoints) {
+            dataset.datapoints = datapoints;
+            addmetadataandreturn(dataset);
+        });
+    } else {
+        throw 'TODO datasource';
+    }
+
+    
     
 }

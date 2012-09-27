@@ -111,7 +111,7 @@ exports.dataToNoteEvents = function(dataset, params){
 
 };
 
-exports.getEvents = function(dataset, params) {
+exports.getEvents = function(dataset, params, callback) {
     
     var result;
 
@@ -125,5 +125,5 @@ exports.getEvents = function(dataset, params) {
     } else {
         throw 'invalid targetType';
     }
-    return result;
+    callback(result);
 }

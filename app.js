@@ -84,13 +84,18 @@ io.sockets.on('connection', function (socket) {
 
         console.log('transform');
         
-        var dataset = datalab.getDataSet(params);
-        var result = midilab.getEvents(dataset, params);
+        var dataset = datalab.getDataSet(params, function(dataset) {
 
-        // send to preview div
-        socket.emit('update_preview',{
-            'destination':params.destination,
-            'result':result
+            var result = midilab.getEvents(dataset, params, function(result) {
+
+                // send to preview div
+                socket.emit('update_preview',{
+                    'destination':params.destination,
+                    'result':result
+                });
+
+            });
+
         });
 
     });
