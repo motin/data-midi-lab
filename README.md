@@ -6,7 +6,6 @@ Built on top of Matt Varone's [Node.JS / Socket.IO / MIDI Keyboard](https://gith
 
 ## How to Install
 
-    sudo port install npm jake
     git clone https://github.com/motin/data-midi-lab.git -b develop
     cd data-midi-lab
     npm install
@@ -14,6 +13,7 @@ Built on top of Matt Varone's [Node.JS / Socket.IO / MIDI Keyboard](https://gith
     git submodule update
     cd modules/teoria
     npm install mingler
+    npm install jake -g
     jake build
     cd ../..
     node app.js
