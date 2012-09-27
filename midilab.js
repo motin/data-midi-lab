@@ -71,26 +71,33 @@ exports.dataToControlEvents = function(dataset){
 };
 
 exports.dataToNoteEvents = function(dataset, params){
-    console.log('dataToNoteEvents', dataset);
+    console.log('dataToNoteEvents');
+    console.log(dataset);
 
     var gamut = [];
 
     if (typeof params.basenote != 'undefined' && typeof params.scale != 'undefined') {
 
-        var basenote = teoria.note(params.basenote);
-        var scale = basenote.scale(params.scale);
-        for (i=0;i<scale.notes.length;i++) {
-            gamut.push(scale.notes[i].key());
+        if (typeof params.octaves === 'undefined') {
+            params.octaves = 2;
         }
-        var scale2 = basenote.interval('P8').scale(params.scale);
-        for (i=0;i<scale2.notes.length;i++) {
-            console.log(scale2.notes[i].key());
-            gamut.push(scale2.notes[i].key());
+
+        var basenote = teoria.note(params.basenote);
+        var scale;
+        for (octave=0;octave<params.octaves;octave++) {
+            scale = basenote.scale(params.scale);
+            for (i=0;i<scale.notes.length;i++) {
+                gamut.push(scale.notes[i].key());
+            }
+            // Rise one octave
+            basenote = basenote.interval('P8');
         }
         
     } else {
         gamut = exports.fullGamut();
     }
+
+    console.log('gamut', gamut);
 
     if (typeof params.channel === 'undefined') {
         params.channel = 1;

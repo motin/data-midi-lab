@@ -169,12 +169,12 @@
         socket.emit('compositions',$(this).data());
     });
 
-    $('#datasets a.transform').on('click', function(e){
+    $('#container a.transform').on('click', function(e){
         e.preventDefault();
         socket.emit('transform',$(this).data());
     });
 
-    $('#datasets a.send').on('click', function(e){
+    $('#container a.send').on('click', function(e){
         e.preventDefault();
         var tosend = {};
         var str = $($(this).data().source).html();

@@ -1,26 +1,39 @@
 #container
     h1 Compositions (Mockup)
     ul#compositions
-        li.a
+        li.demodubstep
             h2 Demo dubstep composition (Mockup)
             div Use trading volume as a signal to start the music (wait for trading volume to reach a certain level). Then, use other metrics (triggering channels on/off, having control values going up or down, etc.) to determine the nature of the music.
             a.send(href='#') Preview composition
             div.clear
             a.send(href='#') Send composition
             ul
-                li
+                li.notes
                     h3 Note generators
                     ul
-                        li
-                            h4 Channel 1 - Melody (Mockup)
-                            div Do something
+                        li.ch1
+                            h4 Channel 1 - Bass wobble (Mockup)
+                            div Melody triggers on when trading_volume goes abnormally high (avg trading + 1 std deviation)
+                            div Melody are constant triplets (so 3 per beat)
+                            div Melody triggers off when
                             a.transform(href='#') Preview
                             pre.tosend
                             div.clear
                             .foo
                             a.send(href='#') Send
-                        li
-                            h4 Channel 2 Bass wobble (Mockup)
+                        li.ch2
+                            h4 Channel 2 - Melody 1 - Apple performance vs Nasdaq100 index
+                            div aapl_indexed_minus_qqqq_indexed_avg_beat_x1000 (rolling 3/7 second average)
+                            div Normalize so that 1 stdev [0,00040824] = 8 semitones. 0 is note 64. Don't use the lower 25% of the negative values, and not the top 25% of the positive values.
+                            div Upper normalize = 8*0,40824*0,75 = 2.44944 Lower normalize = -2.44944
+                            div Melody are constant triplets (so 3 per beat - 1/7s duration per note)
+                            a.transform(href='#',data-datasource='csv',data-dataset='aapl_indexed_minus_qqqq_indexed_avg_beat_x1000',data-datacolumnindex='0',data-datacolumn='aapl_indexed_minus_qqqq_indexed_avg_beat_x1000',data-sourcevaluespersec='100',data-lower-normalize='-2.44944',data-upper-normalize='2.44944',data-channel='2',data-target-type='notes',data-basenote='E1',data-octaves='6',data-scale='dorian',data-rate='3',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch2 pre.tosend') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch2 pre.tosend') Send
+                        li.ch3
+                            h4 Channel 3 - Melody 2 ? (Mockup)
                             div Do something
                             a.transform(href='#') Preview
                             pre.tosend
@@ -122,10 +135,6 @@
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.e pre.tosend') Send
-    ul
-        items = ["one", "two", "three"]
-        each item, i in items
-            li #{item}: #{i}
     ul#controller
         li.button 
             a#play(href='#',data-message='250') 
