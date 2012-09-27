@@ -53,6 +53,13 @@
                     pre.tosend
                     div.clear
                     a.send(href='#',data-source='ul#datasets li.no_data ul li.d pre.tosend') Send
+                li.e
+                    h3 Random notes in E3 minor scale - To MIDI Channel 2
+                    div Transformation: Send a random note message within a two-octave E3 minor scale twice every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-dataset='no_data',data-channel='2',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.e pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.e pre.tosend') Send
     ul
         items = ["one", "two", "three"]
         each item, i in items

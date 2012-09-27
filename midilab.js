@@ -45,8 +45,8 @@ exports.sendEvents = function(midiOut, tosend) {
     for (i=0;i<tosend.length;i++) {
         console.log(tosend[i]);
         if (tosend[i].type == 'note') {
-            exports.scheduleMidiMessage(midiOut, [144,tosend[i].value,tosend[i].velocity], tosend[i].at, start);
-            exports.scheduleMidiMessage(midiOut, [128,tosend[i].value,tosend[i].velocity], tosend[i].at+tosend[i].length, start);
+            exports.scheduleMidiMessage(midiOut, [143+parseInt(tosend[i].channel),tosend[i].value,tosend[i].velocity], tosend[i].at, start);
+            exports.scheduleMidiMessage(midiOut, [127+parseInt(tosend[i].channel),tosend[i].value,tosend[i].velocity], tosend[i].at+tosend[i].length, start);
         } else if (tosend[i].type == 'control') {
             exports.scheduleMidiMessage(midiOut, [176,80,tosend[i].value], tosend[i].at, start);
         } else {
@@ -92,6 +92,10 @@ exports.dataToNoteEvents = function(dataset, params){
         gamut = exports.fullGamut();
     }
 
+    if (typeof params.channel === 'undefined') {
+        params.channel = 1;
+    }
+
     events = [];
     for (i=0;i<dataset.datapoints.length;i++) {
         events.push({
@@ -99,6 +103,7 @@ exports.dataToNoteEvents = function(dataset, params){
             value: gamut[exports.fractionToIndex(dataset.datapoints[i],0,gamut.length)],
             length: dataset.msBetweenPoints,
             velocity: 95,
+            channel: params.channel,
             at: Math.round(dataset.msBetweenPoints*i)
         })
     }
