@@ -2,11 +2,7 @@
     h1 Compositions (Mockup)
     ul#compositions
         li.demodubstep
-            h2 Demo dubstep composition (Mockup)
-            div Use trading volume as a signal to start the music (wait for trading volume to reach a certain level). Then, use other metrics (triggering channels on/off, having control values going up or down, etc.) to determine the nature of the music.
-            a.send(href='#') Preview composition
-            div.clear
-            a.send(href='#') Send composition
+            h2 Dubstep composition
             ul
                 li.notes
                     h3 Note generators
@@ -18,7 +14,7 @@
                             div min_bass_note = 20. E2
                             div every four measures = 16th beat
                             div Data: volume_csec.volume_rolling_avg_16_beats, norm bounds: 0-1500000
-                            a.transform(href='#',data-datasource='csv',data-dataset='volume_rolling_avg_16_beats',data-datacolumnindex='0',data-datacolumn='volume_rolling_avg_16_beats',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='1500000',data-channel='1',data-target-type='notes',data-basenote='E2',data-octaves='2',data-scale='dorian',data-rate='0.0625',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch1 pre.tosend') Preview
+                            a.transform(href='#',data-datasource='csv',data-dataset='volume_rolling_avg_16_beats',data-datacolumnindex='0',data-datacolumn='volume_rolling_avg_16_beats',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='1500000',data-channel='1',data-target-type='notes',data-basenote='E3',data-octaves='1',data-scale='dorian',data-rate='0.0625',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch1 pre.tosend') Preview
                             pre.tosend
                             div.clear
                             .foo
@@ -35,16 +31,16 @@
                             .foo
                             a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch2 pre.tosend') Send
                         li.ch3
-                            h4 Channel 3 - Melody 2 ? (Mockup)
-                            div Do something
+                            h4 Channel 3 - Melody 2 - Microsoft performance vs Nasdaq100 index (TODO)
+                            div Like above
                             a.transform(href='#') Preview
                             pre.tosend
                             div.clear
                             .foo
                             a.send(href='#') Send
                         li.ch3
-                            h4 Channel 4 - Melody 3 ? (Mockup)
-                            div Do something
+                            h4 Channel 4 - Melody 3 - RIM performance vs Nasdaq100 index (TODO)
+                            div Like above
                             a.transform(href='#') Preview
                             pre.tosend
                             div.clear
@@ -60,44 +56,20 @@
                             div.clear
                             .foo
                             a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch10 pre.tosend') Send
-                li
-                    h3 Control tracks
+                li.control
+                    h3 Automation
                     ul
-                        li
-                            h4 A (Mockup)
-                            div Do something
-                            a.transform(href='#') Preview
+                        li.cc78
+                            h4 Control Channel 78 - Base Wobble
+                            div Control to bind to in Reason: LFO 1 Rate (default ⅜)
+                            div max_rv = 140 (reasonable upper bound for rolling volatility)
+                            div min_rv = 0
+                            div max_wobble = 119 (corresponds to 1/16 - highest reasonable value to send to wobble control)
+                            div min_wobble = 76 (corresponds to 3/4 - ...)
+                            a.transform(href='#',data-datasource='csv',data-dataset='volume_rolling_volatility_4_beats_div_e10',data-datacolumnindex='0',data-datacolumn='volume_rolling_volatility_4_beats_div_e10',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='140',data-target-type='control',data-cc='78',data-gamut='85,93,107,119',data-rate='0.25',data-rate-unit='beat', data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.control ul li.cc78 pre.tosend') Preview
                             pre.tosend
                             div.clear
-                            .foo
-                            a.send(href='#') Send
-                        li
-                            h4 B (Mockup)
-                            div Do something
-                            a.transform(href='#') Preview
-                            pre.tosend
-                            div.clear
-                            .foo
-                            a.send(href='#') Send
-                li
-                    h3 Triggers
-                    ul
-                        li
-                            h4 A (Mockup)
-                            div Do something
-                            a.transform(href='#') Preview
-                            pre.tosend
-                            div.clear
-                            .foo
-                            a.send(href='#') Send
-                        li
-                            h4 B (Mockup)
-                            div Do something
-                            a.transform(href='#') Preview
-                            pre.tosend
-                            div.clear
-                            .foo
-                            a.send(href='#') Send
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.control ul li.cc78 pre.tosend') Send
     h1 Datasets
     ul#datasets
         li.volume_280_tatum

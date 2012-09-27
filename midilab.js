@@ -40,7 +40,7 @@ exports.scheduleMidiMessage = function(midiOut, message, at, start) {
     }, at);
 }
 
-exports.sendEvents = function(midiOut, tosend) {
+exports.sendEvents = function(midiOut, tosend, cc) {
     var start = Date.now();
     for (i=0;i<tosend.length;i++) {
         console.log(tosend[i]);
@@ -48,24 +48,44 @@ exports.sendEvents = function(midiOut, tosend) {
             exports.scheduleMidiMessage(midiOut, [143+parseInt(tosend[i].channel),tosend[i].value,tosend[i].velocity], tosend[i].at, start);
             exports.scheduleMidiMessage(midiOut, [127+parseInt(tosend[i].channel),tosend[i].value,tosend[i].velocity], tosend[i].at+tosend[i].length, start);
         } else if (tosend[i].type == 'control') {
-            exports.scheduleMidiMessage(midiOut, [176,80,tosend[i].value], tosend[i].at, start);
+            exports.scheduleMidiMessage(midiOut, [176,tosend[i].cc,tosend[i].value], tosend[i].at, start);
         } else {
             throw 'invalid messageType';
         }
     }
 }
 
-exports.dataToControlEvents = function(dataset){
+exports.dataToControlEvents = function(dataset, params){
     console.log('dataToControlEvents', dataset);
+    console.log(params)
 
     events = [];
+    var gamut = [];
+    
+    if (params.gamut !== 'undefined') {
+        gamut = params.gamut.split(",");
+        for (i=0;i<gamut.length;i++) {
+            gamut[i] = parseInt(gamut[i]);
+        }
+    } else {
+        gamut = exports.numberRange(0,127);
+    }
+
+    if (typeof params.cc === 'undefined') {
+        params.cc = 80;
+    }
+        
+    console.log(gamut);
+    
     for (i=0;i<dataset.datapoints.length;i++) {
         events.push({
             type: 'control',
-            value: exports.fractionToIndex(dataset.datapoints[i],0,127),
-            at: Math.round(dataset.msBetweenPoints*i)
+            value: gamut[exports.fractionToIndex(dataset.datapoints[i],0,(gamut.length-1))],
+            at: Math.round(dataset.msBetweenPoints*i),
+            cc: params.cc
         })
     }
+
     return events;
 
 };
@@ -129,7 +149,7 @@ exports.getEvents = function(dataset, params, callback) {
     if (params.targetType == 'notes') {
         result = exports.dataToNoteEvents(dataset, params);
     } else if (params.targetType == 'control') {
-        result = exports.dataToControlEvents(dataset);
+        result = exports.dataToControlEvents(dataset, params);
     } else if (params.targetType == 'trigger') {
         throw 'TODO';
         result = exports.dataToTriggerEvents(dataset);
