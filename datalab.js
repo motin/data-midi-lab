@@ -50,7 +50,7 @@ exports.setCsvDataPoints = function(params, dataset, callback) {
         console.log('#'+rowno+' '+JSON.stringify(data), datapointIndex);
 
         // Skip row if already sampled a value from source to the datapoints array
-        if (typeof dataset.datapoints[datapointIndex] !== 'undefined') {
+        if (typeof dataset.datapoints[datapointIndex] !== 'undefined' && params.tatumcalc != 'avg') {
 
         } else if (datapointIndex < dataset.datapoints.length) {
 
@@ -65,13 +65,26 @@ exports.setCsvDataPoints = function(params, dataset, callback) {
             C = 0.0;
             D = 1.0;
             normalizedValue = (D-C)/(B-A)*fl+((C*B)-(A*D))/(B-A);
-       
+
+            if (normalizedValue < 0) {
+                normalizedValue = 0.0;
+            }
+
+            if (normalizedValue > 1) {
+                normalizedValue = 1.0;
+            }
+
             // Put the value that we will use firstmost in the array
             data.unshift(normalizedValue);
 
             console.log('data transform aft',data);
+
+            if (params.tatumcalc == 'avg') {
+                throw 'todo';
+            } else {
+                dataset.datapoints[datapointIndex] = data[0];
+            }
         
-            dataset.datapoints[datapointIndex] = data[0];
             
         }
         return true;

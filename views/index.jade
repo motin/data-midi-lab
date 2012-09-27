@@ -12,7 +12,7 @@
                     h3 Note generators
                     ul
                         li.ch1
-                            h4 Channel 1 - Bass wobble (Mockup)
+                            h4 Channel 1 - Bass wobble
                             div Wobble note numbers should range from about 20-50, and be in a key - E-minor.
                             div max_bass_note = 50. 2 octaves
                             div min_bass_note = 20. E2
@@ -42,6 +42,24 @@
                             div.clear
                             .foo
                             a.send(href='#') Send
+                        li.ch3
+                            h4 Channel 4 - Melody 3 ? (Mockup)
+                            div Do something
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+                        li.ch10
+                            h4 Channel 10 - Hi-hat
+                            div upper norm is 0.5 of total average: 241815, so that > avg => hi-hat,   < avg => no hi-hat
+                            div data rate = triplets = 1/7s = 7 per sec = 3 per beat
+                            div Data: volume_csec.volume
+                            a.transform(href='#',data-datasource='csv',data-dataset='volume',data-datacolumnindex='0',data-datacolumn='volume',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='241815',data-channel='10',data-target-type='notes',data-basenote='Eb4',data-scale='off-or-on',data-rate='3',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch10 pre.tosend') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch10 pre.tosend') Send
                 li
                     h3 Control tracks
                     ul

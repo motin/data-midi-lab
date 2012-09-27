@@ -75,14 +75,14 @@ exports.dataToNoteEvents = function(dataset, params){
     console.log(dataset);
 
     var gamut = [];
+    var basenote = teoria.note(params.basenote);
 
-    if (typeof params.basenote != 'undefined' && typeof params.scale != 'undefined') {
+    if (typeof params.basenote != 'undefined' && typeof params.scale != 'undefined' && params.scale != 'off-or-on') {
 
         if (typeof params.octaves === 'undefined') {
             params.octaves = 2;
         }
 
-        var basenote = teoria.note(params.basenote);
         var scale;
         for (octave=0;octave<params.octaves;octave++) {
             scale = basenote.scale(params.scale);
@@ -92,7 +92,11 @@ exports.dataToNoteEvents = function(dataset, params){
             // Rise one octave
             basenote = basenote.interval('P8');
         }
-        
+
+    } else if (params.scale == 'off-or-on') {
+
+        gamut = [0,basenote.key()];
+
     } else {
         gamut = exports.fullGamut();
     }
@@ -107,7 +111,7 @@ exports.dataToNoteEvents = function(dataset, params){
     for (i=0;i<dataset.datapoints.length;i++) {
         events.push({
             type: 'note',
-            value: gamut[exports.fractionToIndex(dataset.datapoints[i],0,gamut.length)],
+            value: gamut[exports.fractionToIndex(dataset.datapoints[i],0,(gamut.length-1))],
             length: dataset.msBetweenPoints,
             velocity: 95,
             channel: params.channel,
