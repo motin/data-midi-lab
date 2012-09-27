@@ -13,14 +13,16 @@
                     ul
                         li.ch1
                             h4 Channel 1 - Bass wobble (Mockup)
-                            div Melody triggers on when trading_volume goes abnormally high (avg trading + 1 std deviation)
-                            div Melody are constant triplets (so 3 per beat)
-                            div Melody triggers off when
-                            a.transform(href='#') Preview
+                            div Wobble note numbers should range from about 20-50, and be in a key - E-minor.
+                            div max_bass_note = 50. 2 octaves
+                            div min_bass_note = 20. E2
+                            div every four measures = 16th beat
+                            div Data: volume_csec.volume_rolling_avg_16_beats, norm bounds: 0-1500000
+                            a.transform(href='#',data-datasource='csv',data-dataset='volume_rolling_avg_16_beats',data-datacolumnindex='0',data-datacolumn='volume_rolling_avg_16_beats',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='1500000',data-channel='1',data-target-type='notes',data-basenote='E2',data-octaves='2',data-scale='dorian',data-rate='0.0625',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch1 pre.tosend') Preview
                             pre.tosend
                             div.clear
                             .foo
-                            a.send(href='#') Send
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch1 pre.tosend') Send
                         li.ch2
                             h4 Channel 2 - Melody 1 - Apple performance vs Nasdaq100 index
                             div aapl_indexed_minus_qqqq_indexed_avg_beat_x1000 (rolling 3/7 second average)
