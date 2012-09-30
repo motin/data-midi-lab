@@ -61,7 +61,7 @@
         },
         bindEvents = function(){
             var self = this,
-                note, key, code, pressed = {};
+            note, key, code, pressed = {};
 
             // Click
             this._el.find('.key').on('mousedown touchstart',function(e){
@@ -116,11 +116,15 @@
         },
         noteDown = function(note){
             var octavedNote = getNoteInOctave.call(this,note);
-            socket.emit('notedown',{message: octavedNote});
+            socket.emit('notedown',{
+                message: octavedNote
+            });
         },
         noteUp = function(note){
             var octavedNote = getNoteInOctave.call(this,note);
-            socket.emit('noteup',{message: octavedNote});
+            socket.emit('noteup',{
+                message: octavedNote
+            });
         },
         getNoteInOctave = function(note){
             var octave = this.octave;
@@ -131,11 +135,15 @@
             }
         },
         octaveUp = function() {
-            if ( this.octave === 4 ) { return; }
+            if ( this.octave === 4 ) {
+                return;
+            }
             this.octave += 1;
         },
         octaveDown = function() {
-            if ( this.octave === -4 ) { return; }
+            if ( this.octave === -4 ) {
+                return;
+            }
             this.octave -= 1;
         };
         return {
@@ -151,7 +159,72 @@
     // send message on click
     $('#controller a').on('click', function(e){
         e.preventDefault();
-        socket.emit('controller',{ message: $(this).data('message') });
+        socket.emit('controller',{
+            message: $(this).data('message')
+        });
     });
+
+    $('#compositions a').on('click', function(e){
+        e.preventDefault();
+        socket.emit('compositions',$(this).data());
+    });
+
+    $('#container a.transform').on('click', function(e){
+        e.preventDefault();
+        socket.emit('transform',$(this).data());
+    });
+
+    $('#container a.send').on('click', function(e){
+        e.preventDefault();
+        var tosend = {};
+        var str = $($(this).data().source).html();
+        if (str == '') {
+            transform_anchor = $($(this).data().source).parent().children('a.transform');
+            console.log($($(this).data().source).parent());
+            console.log(transform_anchor);
+            var todo_mark_that_transform_should_send_right_away;
+            transform_anchor.click(todo_mark_that_transform_should_send_right_away);
+            str = '{empty: true}';
+            //str = $($(this).data().source).html();
+            console.log('nothing to send, preview first...');
+        } else {
+            tosend = eval('tosend = ' + str + ';');
+            socket.emit('send',{
+                tosend: tosend
+            });
+        }
+    });
+
+    // State updates
+    socket.on('update_preview', function(data){
+        console.log('update_preview', data);
+        $(data.destination).html(JSON.stringify(data.result));
+    });
+
+    socket.on('send_start', function(data){
+        console.log('send_start', data);
+    //$(data.destination).html(JSON.stringify(data.result));
+    });
+
+    socket.on('send_stop', function(data){
+        console.log('send_stop', data);
+    //$(data.destination).html(JSON.stringify(data.result));
+    });
+
+    socket.on('message', function (msg) {
+        console.log('message', msg);
+    })
+
+    socket.on('error', function (err) {
+        console.log('error', err);
+    })
+
+    /*
+    socket.onError(function(err) {
+        console.log(err);
+    });
+    */
+
+    console.log('sdfsdf');
 
 })(jQuery);

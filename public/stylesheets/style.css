@@ -314,6 +314,16 @@ small {
     display: block;
 }
 
+pre.tosend {
+    height: 100px;
+    overflow: auto;
+    background-color: black;
+}
+
+div.clear {
+    clear: both;
+}
+
 /* =Keyboard
 -------------------------------------------------------------- */
 

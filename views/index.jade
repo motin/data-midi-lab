@@ -1,4 +1,132 @@
 #container
+    h1 Compositions (Mockup)
+    ul#compositions
+        li.demodubstep
+            h2 Dubstep composition
+            ul
+                li.notes
+                    h3 Note generators
+                    ul
+                        li.ch1
+                            h4 Channel 1 - Bass wobble - Smoothed out Nasdaq overall trading volumes
+                            div Wobble note numbers should range from about 20-50, and be in a key - E-minor.
+                            div max_bass_note = 50. 2 octaves
+                            div min_bass_note = 20. E2
+                            div every four measures = 16th beat
+                            div Data: volume_csec.volume_rolling_avg_16_beats, norm bounds: 0-1500000
+                            a.transform(href='#',data-datasource='csv',data-dataset='volume_rolling_avg_16_beats',data-datacolumnindex='0',data-datacolumn='volume_rolling_avg_16_beats',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='1500000',data-channel='1',data-target-type='notes',data-basenote='E3',data-octaves='1',data-scale='dorian',data-rate='0.0625',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch1 pre.tosend') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch1 pre.tosend') Send
+                        li.ch2
+                            h4 Channel 2 - Melody 1 - Apple performance vs Nasdaq100 index
+                            div aapl_indexed_minus_qqqq_indexed_avg_beat_x1000 (rolling 3/7 second average)
+                            div Normalize so that 1 stdev [0,00040824] = 8 semitones. 0 is note 64. Don't use the lower 25% of the negative values, and not the top 25% of the positive values.
+                            div Upper normalize = 8*0,40824*0,75 = 2.44944 Lower normalize = -2.44944
+                            div Melody are constant triplets (so 3 per beat - 1/7s duration per note)
+                            a.transform(href='#',data-datasource='csv',data-dataset='aapl_indexed_minus_qqqq_indexed_avg_beat_x1000',data-datacolumnindex='0',data-datacolumn='aapl_indexed_minus_qqqq_indexed_avg_beat_x1000',data-sourcevaluespersec='100',data-lower-normalize='-2.44944',data-upper-normalize='2.44944',data-channel='2',data-target-type='notes',data-basenote='E1',data-octaves='6',data-scale='dorian',data-rate='3',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch2 pre.tosend') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch2 pre.tosend') Send
+                        li.ch3
+                            h4 Channel 3 - Melody 2 - Microsoft performance vs Nasdaq100 index (TODO)
+                            div Like above
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+                        li.ch3
+                            h4 Channel 4 - Melody 3 - RIM performance vs Nasdaq100 index (TODO)
+                            div Like above
+                            a.transform(href='#') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#') Send
+                        li.ch10
+                            h4 Channel 10 - Hi-hat - Triggered on spikes in the overal nasdaq trading volume
+                            div upper norm is 0.5 of total average: 241815, so that > avg => hi-hat,   < avg => no hi-hat
+                            div data rate = triplets = 1/7s = 7 per sec = 3 per beat
+                            div Data: volume_csec.volume
+                            a.transform(href='#',data-datasource='csv',data-dataset='volume',data-datacolumnindex='0',data-datacolumn='volume',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='241815',data-channel='10',data-target-type='notes',data-basenote='Eb4',data-scale='off-or-on',data-rate='3',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.notes ul li.ch10 pre.tosend') Preview
+                            pre.tosend
+                            div.clear
+                            .foo
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.notes ul li.ch10 pre.tosend') Send
+                li.control
+                    h3 Automation
+                    ul
+                        li.cc78
+                            h4 Control Channel 78 - Base Wobble
+                            div Control to bind to in Reason: LFO 1 Rate (default ⅜)
+                            div max_rv = 140 (reasonable upper bound for rolling volatility)
+                            div min_rv = 0
+                            div max_wobble = 119 (corresponds to 1/16 - highest reasonable value to send to wobble control)
+                            div min_wobble = 93 (corresponds to 3/4 - ...)
+                            a.transform(href='#',data-datasource='csv',data-dataset='volume_rolling_volatility_4_beats_div_e10',data-datacolumnindex='0',data-datacolumn='volume_rolling_volatility_4_beats_div_e10',data-sourcevaluespersec='100',data-lower-normalize='0',data-upper-normalize='140',data-target-type='control',data-cc='78',data-gamut='93,107,119',data-rate='0.25',data-rate-unit='beat', data-duration='120',data-duration-unit='seconds',data-destination='ul#compositions li.demodubstep ul li.control ul li.cc78 pre.tosend') Preview
+                            pre.tosend
+                            div.clear
+                            a.send(href='#',data-source='ul#compositions li.demodubstep ul li.control ul li.cc78 pre.tosend') Send
+    h1 Datasets
+    ul#datasets
+        li.volume_280_tatum
+            h2 volume_280_tatum.csv
+            ul
+                li.a
+                    h3 Notes based on bid_volume in E3 minor
+                    div Transformation: Take each bid_volume, normalize it send a note message within a two-octave E3 minor scale for every beat at 140 bpm
+                    a.transform(href='#',data-datasource='csv',data-dataset='volume_280_tatum',data-datacolumnindex='1',data-datacolumn='bid_volume',data-lower-normalize='0',data-upper-normalize='15000000',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='1',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#datasets li.volume_280_tatum ul li.a pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.volume_280_tatum ul li.a pre.tosend') Send
+                li.b
+                    h3 Notes based on bid_volatility in E3 minor
+                    div Transformation: Take each bid_volatility, normalize it send a note message within a two-octave E3 minor scale for every beat at 140 bpm
+                    a.transform(href='#',data-datasource='csv',data-dataset='volume_280_tatum',data-datacolumnindex='2',data-datacolumn='bid_volatility',data-lower-normalize='0',data-upper-normalize='5',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='1',data-rate-unit='beat',data-duration='120',data-duration-unit='seconds',data-destination='ul#datasets li.volume_280_tatum ul li.b pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.volume_280_tatum ul li.b pre.tosend') Send
+        li.no_data
+            h2 Non-data programs
+            ul
+                li.a
+                    h3 Random control data
+                    div Transformation: Send a random control message 60 times per every second at 140 bpm for 10 seconds
+                    a.transform(href='#',data-datasource='no_data',data-target-type='control',data-rate='60',data-rate-unit='second', data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.a pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.a pre.tosend') Send
+                li.b
+                    h3 Random notes at high frequency
+                    div Transformation: Send a random note message 100 times every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-datasource='no_data',data-target-type='notes',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.b pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.b pre.tosend') Send
+                li.c
+                    h3 Random notes in E3 minor scale at high frequency
+                    div Transformation: Send a random note message within a two-octave E3 minor scale 100 times every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-datasource='no_data',data-target-type='notes',data-basenote='E2',data-scale='dorian',data-rate='100',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.c pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.c pre.tosend') Send
+                li.d
+                    h3 Random notes in E3 minor scale
+                    div Transformation: Send a random note message within a two-octave E3 minor scale twice every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-datasource='no_data',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.d pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.d pre.tosend') Send
+                li.e
+                    h3 Random notes in E3 minor scale - To MIDI Channel 2
+                    div Transformation: Send a random note message within a two-octave E3 minor scale twice every beat at 140 bpm for 10 seconds
+                    a.transform(href='#',data-datasource='no_data',data-channel='2',data-target-type='notes',data-basenote='E3',data-scale='dorian',data-rate='2',data-rate-unit='beat',data-duration='10',data-duration-unit='seconds',data-destination='ul#datasets li.no_data ul li.e pre.tosend') Preview
+                    pre.tosend
+                    div.clear
+                    a.send(href='#',data-source='ul#datasets li.no_data ul li.e pre.tosend') Send
     ul#controller
         li.button 
             a#play(href='#',data-message='250') 
@@ -9,7 +137,9 @@
         li.button 
             a#record(href='#',data-message='255') 
                 span Record
+    h1 Keyboard
+    span Use this to verify that your synthesizer / music software picks up the MIDI signals properly
     #keyboard
-    small Controlling Ableton Live with Node.JS, Socket.IO, and MIDI.
+    small Data MIDI Lab - A Node.js-based MIDI Controller and web frontend that allows you to generate MIDI notes and control data from arbitrary chunks of data.
 script(type="text/javascript", src="/javascripts/jquery.min.js")
 script(type="text/javascript", src="/javascripts/script.js")
