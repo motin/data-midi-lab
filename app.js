@@ -20,7 +20,11 @@ app.configure(function(){
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);
-    app.use(express.static(__dirname + '/public'));
+    app.use('/javascripts', express.static(__dirname + '/public/javascripts'));
+    app.use('/stylesheets', express.static(__dirname + '/public/stylesheets'));
+	app.use('/o3djs', express.static(__dirname + '/modules/o3djs'));
+	app.use('/shaders', express.static(__dirname + '/modules/chromium-audio/shaders'));
+	app.use('/vizualizer-live', express.static(__dirname + '/modules/chromium-audio/vizualizer-live'));
 });
 
 app.configure('development', function(){

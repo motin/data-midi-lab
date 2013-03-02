@@ -1,3 +1,13 @@
+canvas#view1(width="1280px",height="800px")
+div#controls
+span Frequency
+input(type="radio",name="radioSet",value="data",onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_FREQUENCY);")
+span Sonogram
+input(type="radio",name="radioSet",value="data",onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_SONOGRAM);")
+span 3D Sonogram
+input(type="radio",name="radioSet",value="data",onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_3D_SONOGRAM);")
+span Waveform
+input(type="radio",name="radioSet",value="data",onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_WAVEFORM);")
 #container
     h1 Compositions (Mockup)
     ul#compositions
@@ -143,3 +153,10 @@
     small Data MIDI Lab - A Node.js-based MIDI Controller and web frontend that allows you to generate MIDI notes and control data from arbitrary chunks of data.
 script(type="text/javascript", src="/javascripts/jquery.min.js")
 script(type="text/javascript", src="/javascripts/script.js")
+script(type="text/javascript", src="/vizualizer-live/events.js")
+script(type="text/javascript", src="/vizualizer-live/base.js")
+script(type="text/javascript", src="/vizualizer-live/shader.js")
+script(type="text/javascript", src="/vizualizer-live/cameracontroller.js")
+script(type="text/javascript", src="/vizualizer-live/matrix4x4.js")
+script(type="text/javascript", src="/vizualizer-live/visualizer.js")
+script(type="text/javascript", src="/vizualizer-live/init.js")
