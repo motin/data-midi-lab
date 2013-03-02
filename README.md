@@ -1,12 +1,10 @@
-# Data MIDI Lab
+# Data MIDI Lab - experiments/realtime-audio-to-midi-converter
 
-A Node.js-based MIDI Controller and web frontend that allows you to generate MIDI notes and control data from arbitrary chunks of data.
-
-Built on top of Matt Varone's [Node.JS / Socket.IO / MIDI Keyboard](https://github.com/sksmatt/nodejs-ableton-piano).
+An Node.JS / Socket.IO / MIDI Controller / Web Audio API experiment for converting microphone audio input to MIDI events sent to a virtual MIDI Controller (usable in for instance Reason)
 
 ## How to Install
 
-    git clone https://github.com/motin/data-midi-lab.git -b develop
+    git clone https://github.com/motin/data-midi-lab.git -b experiments/realtime-audio-to-midi-converter
     cd data-midi-lab
     npm install
     git submodule init
