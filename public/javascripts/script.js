@@ -225,6 +225,4 @@
     });
     */
 
-    console.log('sdfsdf');
-
 })(jQuery);
