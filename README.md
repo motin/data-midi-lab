@@ -16,7 +16,7 @@ An Node.JS / Socket.IO / MIDI Controller / Web Audio API experiment for converti
     cd ../..
     node app.js
 
-Then open [http://localhost:3001](http://localhost:3001) in a browser.
+Currently, the parameters adjusting MIDI conversion are hard-coded in app.js (in the 'convert' callback). Adjust these to your liking, then open [http://localhost:3001](http://localhost:3001) in a browser.
 
 ## License
 
