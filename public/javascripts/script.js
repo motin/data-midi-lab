@@ -2,6 +2,9 @@
     // connect to socket.io
     var socket = io.connect('http://localhost'); // change to appropiate for network access
 
+	// global variable glory
+	window.socket = socket;
+
     ////////////
 
     var KeyBoard = function(el) {

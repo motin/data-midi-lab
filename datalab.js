@@ -100,6 +100,65 @@ exports.setCsvDataPoints = function(params, dataset, callback) {
 
 }
 
+exports.setDataArrayDataPoints = function(params, dataset, callback, dataarray) {
+
+	if (typeof params.sourcevaluespersec === 'undefined') {
+		params.sourcevaluespersec = dataset.ratePerSecond;
+	}
+	if (params.sourcevaluespersec < dataset.ratePerSecond) {
+		throw 'TODO interpolation for case sourcevaluespersec < ratePerSecond';
+	}
+	for (rowno = 0; rowno < params.dataarray.length; rowno++) {
+		params.datacolumnindex = 0;
+		var data = [params.dataarray[rowno]];
+
+		var datapointIndex = Math.round(rowno / (params.sourcevaluespersec * dataset.durationSeconds) * (dataset.datapoints.length));
+		//console.log(index, params.sourcevaluespersec*dataset.durationSeconds);
+
+		console.log('#' + rowno + ' ' + JSON.stringify(data), datapointIndex);
+
+		// Skip row if already sampled a value from source to the datapoints array
+		if (typeof dataset.datapoints[datapointIndex] !== 'undefined' && params.tatumcalc != 'avg') {
+
+		} else if (datapointIndex < dataset.datapoints.length) {
+
+			// Get the value from datacolumnindex - TODO: support datacolumn name-based by reading headers first...
+			fl = parseFloat(data[params.datacolumnindex]);
+
+			//console.log('data transform bef', data, data[params.datacolumnindex], data[params.datacolumnindex].replace(',', '.'), fl);
+
+			// Normalize - map the linear range [A..B] to [C..D] http://stackoverflow.com/questions/1471370/normalizing-from-0-5-1-to-0-1
+			A = params.lowerNormalize;
+			B = params.upperNormalize;
+			C = 0.0;
+			D = 1.0;
+			normalizedValue = (D - C) / (B - A) * fl + ((C * B) - (A * D)) / (B - A);
+
+			if (normalizedValue < 0) {
+				normalizedValue = 0.0;
+			}
+
+			if (normalizedValue > 1) {
+				normalizedValue = 1.0;
+			}
+
+			// Put the value that we will use firstmost in the array
+			data.unshift(normalizedValue);
+
+			console.log('data transform aft', data);
+
+			if (params.tatumcalc == 'avg') {
+				throw 'todo';
+			} else {
+				dataset.datapoints[datapointIndex] = data[0];
+			}
+		}
+	}
+
+	callback(dataset);
+
+}
+
 exports.getDataSet = function(params, callback){
     
     console.log('getDataSet', params);
@@ -151,6 +210,10 @@ exports.getDataSet = function(params, callback){
         exports.setCsvDataPoints(params, dataset, function(dataset) {
             callback(dataset);
         });
+	} else if (params.datasource == 'data-array') {
+		exports.setDataArrayDataPoints(params, dataset, function(dataset) {
+			callback(dataset);
+		});
     } else {
         throw 'TODO datasource';
     }

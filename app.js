@@ -117,6 +117,41 @@ io.sockets.on('connection', function (socket) {
         
     });
 
+	socket.on('convert', function(params) {
+
+		console.log('convert', params);
+
+		var params = {
+			datasource: 'data-array',
+			lowerNormalize: '0',
+			upperNormalize: '50',
+			channel: '2',
+			targetType: 'notes',
+			basenote: 'E1',
+			octaves: 6,
+			scale: 'dorian',
+			ratePerSecond: 10,
+			rate: '3',
+			rateUnit: 'beat',
+			duration: '0.5',
+			durationUnit: 'seconds',
+			dataarray: params.toconvert,
+		};
+
+		datalab.getDataSet(params, function(dataset) {
+
+			console.log('dataset', dataset);
+			midilab.getEvents(dataset, params, function(result) {
+
+				console.log('result', result);
+				midilab.sendEvents(midiOut, result);
+
+			});
+
+		});
+
+	});
+
     socket.on('error', function (err) {
         console.log(err);
     })
