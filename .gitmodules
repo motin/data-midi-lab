@@ -1,3 +1,6 @@
 [submodule "modules/teoria"]
 	path = modules/teoria
 	url = https://github.com/saebekassebil/teoria.git
+[submodule "modules/o3djs"]
+	path = modules/o3djs
+	url = https://github.com/sirikata/o3djs
