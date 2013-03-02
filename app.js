@@ -25,6 +25,7 @@ app.configure(function(){
 	app.use('/o3djs', express.static(__dirname + '/modules/o3djs'));
 	app.use('/shaders', express.static(__dirname + '/modules/chromium-audio/shaders'));
 	app.use('/vizualizer-live', express.static(__dirname + '/modules/chromium-audio/vizualizer-live'));
+	app.use('/fast-stats', express.static(__dirname + '/node_modules/fast-stats'));
 });
 
 app.configure('development', function(){
