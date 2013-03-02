@@ -7,5 +7,12 @@ AnalyserView.prototype.convertToMIDI = function() {
 
 	console.log('freqByteData', freqByteData);
 
+	s = new Stats();
+	for (var i = 0; i < freqByteData.length; ++i) {
+		s.push(freqByteData[i]);
+	}
+
+	console.log(s.gmean(), s.amean(), s.amean().toFixed(2));
+
 }
 
