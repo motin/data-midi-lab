@@ -264,6 +264,9 @@ AnalyserView.prototype.analysisType = function() {
 
 
 AnalyserView.prototype.doFrequencyAnalysis = function(event) {
+
+    this.convertToMIDI();
+
     var freqByteData = this.freqByteData;
     
     switch(this.analysisType) {
